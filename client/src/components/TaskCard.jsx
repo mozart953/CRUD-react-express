@@ -1,9 +1,12 @@
 
-import { deletTaskRequest } from '../api/tasks.api.js'
-import {useTasks} from '../context/TaskContext'
+// import { deletTaskRequest } from '../api/tasks.api.js'
+import {useTasks } from '../context/TaskContext'
+import {useNavigate} from 'react-router-dom'
+
 
 function TaskCard({ task }) {
     const {deleteTask} = useTasks();
+    const navigate = useNavigate();
 
  
 
@@ -15,10 +18,10 @@ function TaskCard({ task }) {
             <p>{task.description}</p>
             <span>{task.done == 1 ? "✔️" : "🗙"}</span>
             <span>{task.createAt}</span>
-            <button onClick={() => deletTask(task.id)}>
+            <button onClick={() => deleteTask(task.id)}>
                 Delete
             </button>
-            <button>
+            <button onClick={()=>navigate(`/edit/${task.id}`)}>
                 Edit
             </button>
         </div>
