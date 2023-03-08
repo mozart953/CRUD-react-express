@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import {getTasksRequest, deletTaskRequest, createTaskRequest, getTaskRequest, updateTaskRequest} from '../api/tasks.api.js'
+import {getTasksRequest, deletTaskRequest, createTaskRequest, getTaskRequest, updateTaskRequest, toggleTaskDoneRequest} from '../api/tasks.api.js'
 
 
 
@@ -69,14 +69,28 @@ export const TaskContextProvider = ({ children }) => {
 
     }
 
-
-
-
-
+const toggleTaskDone = async (id)=>{
     
+    try{
+
+        const taskFound = tasks.find((task) => task.id ===id);
+     
+        await toggleTaskDoneRequest(id,taskFound.done ===0 ? true: false);
+        setTasks(
+            tasks.map((task) =>
+              task.id === id ? { ...task, done: !task.done } : task
+            ));
+    }catch(error){
+        console.error(error);
+    }
     
+   
+}
+
+
+
     return (
-        <TaskContext.Provider value={{ tasks, loadTasks,deleteTask, createTask, getTask, updateTask}}>
+        <TaskContext.Provider value={{ tasks, loadTasks,deleteTask, createTask, getTask, updateTask, toggleTaskDone}}>
             {children}
         </TaskContext.Provider>
     );
